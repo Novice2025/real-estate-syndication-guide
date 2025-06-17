@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Interactive Guide to Real Estate Syndication</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals (Beige, Slate Gray) with a Deep Teal accent -->
+    <!-- Application Structure Plan: A top-down, single-page application that guides the user through the core concepts of real estate syndication. The structure is thematic, starting with the "What & Why," moving to the "Who" (Key Roles), the "How" (Lifecycle & Financials), and finally the "Where" (Global Regulations). This narrative flow is more intuitive for learning than mirroring the report's structure. Key interactions include tabbed content for global comparisons and clickable cards to reveal detailed information, reducing cognitive load and encouraging exploration. The final section synthesizes the information to help users assess if this investment is right for them. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: GP vs LP roles. Goal: Compare. Viz: Side-by-side clickable cards. Interaction: Click to expand. Justification: Encourages active learning and direct comparison. Method: HTML/CSS/JS.
+        - Report Info: Syndication Lifecycle. Goal: Show a process. Viz: Horizontal timeline. Interaction: Click on stage to see details. Justification: Visualizes a sequence more effectively than text. Method: HTML/CSS/JS.
+        - Report Info: Financial waterfalls/fees. Goal: Explain complex financial structure. Viz: Tiered diagram for waterfall, card layout for fees. Interaction: Static visualization for clarity. Justification: Simplifies a difficult concept. Method: HTML/CSS.
+        - Report Info: Investor financial thresholds across 5 countries. Goal: Compare regulations. Viz: Bar Chart. Interaction: Click country tabs to highlight data; hover for tooltips. Justification: A chart provides instant visual comparison of magnitudes, which is far superior to reading numbers in a table. Library: Chart.js. 
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* stone-100 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-bottom-color 0.3s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0d9488; /* teal-600 */
+            border-bottom-color: #0d9488; /* teal-600 */
+        }
+        .tab-button {
+            transition: all 0.3s;
+        }
+        .tab-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: #ffffff;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: -0.4rem;
+            width: 0.8rem;
+            height: 0.8rem;
+            background-color: #0d9488; /* teal-600 */
+            border-radius: 9999px;
+            border: 2px solid #f5f5f4; /* stone-100 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-xl font-bold text-slate-800">Real Estate Syndication</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Introduction</a>
+                        <a href="#roles" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Key Roles</a>
+                        <a href="#lifecycle" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Lifecycle</a>
+                        <a href="#financials" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Financials</a>
+                        <a href="#global" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Global View</a>
+                        <a href="#risks" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Risks & Rewards</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        
+        <section id="intro" class="text-center py-12 md:py-20">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-800 tracking-tight">Unlock Large-Scale Real Estate Deals.</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-slate-600">Real estate syndication is a powerful strategy where multiple investors pool their capital to collectively invest in properties far larger than they could afford alone. This application provides an interactive guide to understand how it works, who is involved, and the key financial and regulatory considerations across the globe.</p>
+        </section>
+
+        <section id="roles" class="py-12 md:py-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Two Key Roles</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">Every syndication is a partnership between two distinct parties: the active manager and the passive investors. Click each role to learn more about their responsibilities and rewards.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white p-8 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300" onclick="toggleRoleDetails('gp-details')">
+                    <h3 class="text-2xl font-bold text-center text-teal-700">The General Partner (GP)</h3>
+                    <p class="text-center mt-2 text-slate-500">The "Sponsor" or Active Manager</p>
+                    <div id="gp-details" class="mt-4 space-y-3 hidden">
+                        <p><strong>Responsibility:</strong> Manages the entire process from deal sourcing and financing to asset management and eventual sale. They make all operational decisions.</p>
+                        <p><strong>Liability:</strong> Traditionally assumes unlimited liability for the project's debts and legal obligations, putting their personal assets at risk.</p>
+                        <p><strong>Compensation:</strong> Earns fees (acquisition, asset management) and a "promote" or "carried interest" – a significant share of the profits after investors are paid.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300" onclick="toggleRoleDetails('lp-details')">
+                    <h3 class="text-2xl font-bold text-center text-teal-700">The Limited Partner (LP)</h3>
+                    <p class="text-center mt-2 text-slate-500">The Passive Investor</p>
+                    <div id="lp-details" class="mt-4 space-y-3 hidden">
+                        <p><strong>Responsibility:</strong> Primarily contributes capital to the project. They have no active role in the day-to-day management of the property.</p>
+                        <p><strong>Liability:</strong> Limited to the amount of their investment. Their personal assets are protected from the project's debts.</p>
+                        <p><strong>Compensation:</strong> Receives a share of the profits and cash flow distributions, including a "preferred return" that is paid out before the GP receives their profit share.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="lifecycle" class="py-12 md:py-20 bg-stone-50 rounded-xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Syndication Lifecycle</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">A typical syndication follows a structured path from acquisition to exit, usually spanning 5-10 years. Click on each phase to see what happens.</p>
+            </div>
+            <div class="relative max-w-4xl mx-auto pl-4">
+                <div class="absolute left-4 top-0 h-full w-0.5 bg-slate-300"></div>
+                <div class="space-y-8">
+                    <div class="relative pl-8 timeline-item">
+                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc1')">1. Deal Sourcing & Underwriting</h4>
+                        <p id="lc1" class="mt-2 hidden">The GP identifies promising properties, analyzing market data, financials, and value-add potential. Rigorous financial models are built to project returns.</p>
+                    </div>
+                    <div class="relative pl-8 timeline-item">
+                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc2')">2. Capital Raising</h4>
+                        <p id="lc2" class="mt-2 hidden">The GP prepares offering documents (like a Private Placement Memorandum) and presents the deal to potential LPs to secure investment commitments.</p>
+                    </div>
+                    <div class="relative pl-8 timeline-item">
+                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc3')">3. Acquisition & Closing</h4>
+                        <p id="lc3" class="mt-2 hidden">Once capital is raised, legal paperwork is finalized, funds are wired, and the GP officially purchases the property.</p>
+                    </div>
+                    <div class="relative pl-8 timeline-item">
+                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc4')">4. Asset Management & Stabilization</h4>
+                        <p id="lc4" class="mt-2 hidden">For several years, the GP executes the business plan: renovating units, improving operations, and increasing the property's value. LPs receive regular updates and cash flow distributions.</p>
+                    </div>
+                     <div class="relative pl-8 timeline-item">
+                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc5')">5. Exit & Disposition</h4>
+                        <p id="lc5" class="mt-2 hidden">The GP sells the stabilized, appreciated property. Profits and remaining capital are distributed to all partners, and the syndication is formally concluded.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="financials" class="py-12 md:py-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">How Everyone Gets Paid</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">The financial structure is designed to align the interests of the GP and LPs. This is primarily achieved through a profit distribution model called the "waterfall."</p>
+            </div>
+            <div class="grid lg:grid-cols-2 gap-8 items-start">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">The Distribution Waterfall</h3>
+                    <p class="mb-6 text-slate-600">Profits from cash flow or a sale are distributed in a specific order of priority, ensuring investors get paid first.</p>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="font-bold text-teal-700">Tier 1: Return of Capital</h4>
+                            <p>All LPs receive 100% of their initial investment back.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="font-bold text-teal-700">Tier 2: Preferred Return</h4>
+                            <p>LPs receive a pre-negotiated percentage return (e.g., 6-10%) on their investment. This is a hurdle that must be cleared before the GP earns profit share.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="font-bold text-teal-700">Tier 3: The "Promote" or Carried Interest</h4>
+                            <p>Remaining profits are split between LPs and the GP according to a predetermined ratio (e.g., 70% to LPs, 30% to GP).</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-slate-800">Typical Sponsor Fees</h3>
+                    <p class="mb-6 text-slate-600">The GP also charges fees to cover the costs of finding, managing, and selling the property. These should be clearly disclosed to investors.</p>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="font-semibold">Acquisition Fee (1-3% of Purchase Price)</h4>
+                            <p class="text-sm text-slate-500">A one-time fee for sourcing, negotiating, and closing the deal.</p>
+                        </div>
+                         <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="font-semibold">Asset Management Fee (1-2% of Capital Raised)</h4>
+                            <p class="text-sm text-slate-500">An annual fee for the ongoing management and strategic oversight of the property.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow">
+                            <h4 class="font-semibold">Disposition Fee (1-3% of Sale Price)</h4>
+                            <p class="text-sm text-slate-500">A fee for the work involved in marketing and selling the asset at the end of the lifecycle.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="global" class="py-12 md:py-20 bg-stone-50 rounded-xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">A Global View of Syndication</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">While the concept is universal, the rules change from country to country. The most important difference is who is allowed to invest. Select a country to see its specific framework and compare investor requirements.</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="USA">USA</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="UK">United Kingdom</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="Canada">Canada</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="Singapore">Singapore</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="Brazil">Brazil</button>
+            </div>
+            
+            <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-6xl mx-auto">
+                <div id="content-USA" class="content-section">
+                    <h3 class="text-2xl font-bold text-slate-800">United States</h3>
+                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Securities and Exchange Commission (SEC)</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Regulation D provides exemptions from full public registration, making it the standard for private syndications. Offerings are most commonly made under Rule 506(b) or 506(c).</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Type:</strong> "Accredited Investor"</p>
+                </div>
+                <div id="content-UK" class="content-section">
+                    <h3 class="text-2xl font-bold text-slate-800">United Kingdom</h3>
+                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Financial Conduct Authority (FCA)</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Governed by rules for Collective Investment Schemes (CIS). Unregulated schemes (UCIS), common for syndications, can only be promoted to specific investor types.</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Types:</strong> "High Net Worth Individual" & "Sophisticated Investor"</p>
+                </div>
+                <div id="content-Canada" class="content-section">
+                     <h3 class="text-2xl font-bold text-slate-800">Canada</h3>
+                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Provincial Securities Commissions (e.g., OSC, BCSC), coordinated by the Canadian Securities Administrators (CSA)</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> National Instrument 45-106 provides "prospectus exemptions" that allow for private capital raising, heavily relying on investor classification.</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Type:</strong> "Accredited Investor"</p>
+                </div>
+                <div id="content-Singapore" class="content-section">
+                    <h3 class="text-2xl font-bold text-slate-800">Singapore</h3>
+                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Monetary Authority of Singapore (MAS)</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Governed by the Securities and Futures Act (SFA). "Restricted Foreign Schemes" are a common path, targeting non-retail investors without requiring a full public prospectus.</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Type:</strong> "Accredited Investor"</p>
+                </div>
+                 <div id="content-Brazil" class="content-section">
+                    <h3 class="text-2xl font-bold text-slate-800">Brazil</h3>
+                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Comissão de Valores Mobiliários (CVM)</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Real Estate Investment Funds (FIIs) are the primary vehicle. They are closed-ended condominiums regulated by the CVM and are broadly accessible.</p>
+                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Types:</strong> "Qualified Investor" & "Professional Investor" (Retail investors also have access).</p>
+                </div>
+
+                <div class="mt-8">
+                     <h4 class="text-xl font-bold text-center text-slate-700 mb-4">Comparing Investor Financial Thresholds (USD Equivalent)</h4>
+                    <div class="chart-container">
+                        <canvas id="investorChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="risks" class="py-12 md:py-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Is Syndication Right For You?</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">Understand the key benefits and inherent risks before investing.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-green-600 mb-4">Rewards & Benefits</h3>
+                    <ul class="space-y-3 list-disc list-inside">
+                        <li><strong>Access to Larger Deals:</strong> Invest in institutional-quality assets you couldn't buy alone.</li>
+                        <li><strong>Passive Investment:</strong> Earn returns without the headaches of property management.</li>
+                        <li><strong>Professional Management:</strong> Leverage the expertise, network, and track record of an experienced sponsor.</li>
+                        <li><strong>Diversification:</strong> Spread your capital across different properties, markets, or asset types.</li>
+                         <li><strong>Potential Tax Advantages:</strong> Benefit from deductions like depreciation.</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-red-600 mb-4">Risks & Considerations</h3>
+                     <ul class="space-y-3 list-disc list-inside">
+                        <li><strong>Illiquidity:</strong> Your capital is typically tied up for 5-10 years with limited options to exit early.</li>
+                        <li><strong>Lack of Control:</strong> You are trusting the GP to make all decisions.</li>
+                        <li><strong>Sponsor Risk:</strong> The success of the project is highly dependent on the GP's competence and integrity.</li>
+                        <li><strong>Market Risk:</strong> Economic downturns can negatively impact property values and rental income.</li>
+                        <li><strong>Complexity:</strong> The legal and financial structures can be complex and require careful due diligence.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="bg-slate-800 text-white">
+        <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>This interactive guide is for informational purposes only and does not constitute financial advice. All data is based on the source report provided.</p>
+            <p class="mt-2">Created by Teacher Daby</p>
+        </div>
+    </footer>
+
+
+    <script>
+        const roleDetails = ['gp-details', 'lp-details'];
+        function toggleRoleDetails(id) {
+            const el = document.getElementById(id);
+            const isHidden = el.classList.contains('hidden');
+            
+            // Optional: Hide all others first for an accordion effect
+            // roleDetails.forEach(detailId => {
+            //     if (detailId !== id) document.getElementById(detailId).classList.add('hidden');
+            // });
+
+            if(isHidden) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        const lifecycleDetails = ['lc1', 'lc2', 'lc3', 'lc4', 'lc5'];
+        function toggleLifecycle(id) {
+            const el = document.getElementById(id);
+            const isHidden = el.classList.contains('hidden');
+            if(isHidden) {
+                el.classList.remove('hidden');
+            } else {
+                el.classList.add('hidden');
+            }
+        }
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        let investorChart;
+
+        const chartData = {
+            USA: { income: 200000, netWorth: 1000000 },
+            UK: { income: 126000, netWorth: 315000 }, // £100k, £250k @ 1.26 USD/GBP
+            Canada: { income: 146000, netWorth: 730000 }, // C$200k, C$1M @ 0.73 USD/CAD (using financial assets for worth)
+            Singapore: { income: 222000, netWorth: 740000 }, // S$300k, S$1M @ 0.74 USD/SGD (using financial assets for worth)
+            Brazil: { income: 0, netWorth: 185000 } // BRL 1M @ 0.185 USD/BRL (Qualified investor, no income test)
+        };
+
+        function updateContent(country) {
+            tabButtons.forEach(button => {
+                if (button.dataset.country === country) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+
+            contentSections.forEach(section => {
+                if (section.id === `content-${country}`) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+            updateChart(country);
+        }
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                updateContent(button.dataset.country);
+            });
+        });
+
+        function createChart() {
+            const ctx = document.getElementById('investorChart').getContext('2d');
+            investorChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(chartData),
+                    datasets: [{
+                        label: 'Annual Income (USD)',
+                        data: Object.values(chartData).map(d => d.income),
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 2
+                    }, {
+                        label: 'Net Worth (USD)',
+                        data: Object.values(chartData).map(d => d.netWorth),
+                        backgroundColor: [],
+                        borderColor: [],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return '$' + (value / 1000) + 'k';
+                                }
+                            }
+                        },
+                         y: {
+                            ticks: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(context.parsed.x);
+                                    }
+                                    if(context.dataset.label.includes('Income') && context.raw === 0) {
+                                        return ' Income test not applicable';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(selectedCountry) {
+            const incomeColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgba(13, 148, 136, 0.8)' : 'rgba(13, 148, 136, 0.2)');
+            const netWorthColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgba(8, 126, 164, 0.8)' : 'rgba(8, 126, 164, 0.2)');
+            const incomeBorderColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgb(13, 148, 136)' : 'rgba(13, 148, 136, 0.4)');
+            const netWorthBorderColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgb(8, 126, 164)' : 'rgba(8, 126, 164, 0.4)');
+
+            investorChart.data.datasets[0].backgroundColor = incomeColors;
+            investorChart.data.datasets[1].backgroundColor = netWorthColors;
+            investorChart.data.datasets[0].borderColor = incomeBorderColors;
+            investorChart.data.datasets[1].borderColor = netWorthBorderColors;
+            investorChart.update();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createChart();
+            updateContent('USA');
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main > section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
