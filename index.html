@@ -3,40 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Interactive Guide to Real Estate Syndication</title>
+    <title>Mastering 'May' and 'Might': A Global Perspective</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals (Beige, Slate Gray) with a Deep Teal accent -->
-    <!-- Application Structure Plan: A top-down, single-page application that guides the user through the core concepts of real estate syndication. The structure is thematic, starting with the "What & Why," moving to the "Who" (Key Roles), the "How" (Lifecycle & Financials), and finally the "Where" (Global Regulations). This narrative flow is more intuitive for learning than mirroring the report's structure. Key interactions include tabbed content for global comparisons and clickable cards to reveal detailed information, reducing cognitive load and encouraging exploration. The final section synthesizes the information to help users assess if this investment is right for them. -->
-    <!-- Visualization & Content Choices: 
-        - Report Info: GP vs LP roles. Goal: Compare. Viz: Side-by-side clickable cards. Interaction: Click to expand. Justification: Encourages active learning and direct comparison. Method: HTML/CSS/JS.
-        - Report Info: Syndication Lifecycle. Goal: Show a process. Viz: Horizontal timeline. Interaction: Click on stage to see details. Justification: Visualizes a sequence more effectively than text. Method: HTML/CSS/JS.
-        - Report Info: Financial waterfalls/fees. Goal: Explain complex financial structure. Viz: Tiered diagram for waterfall, card layout for fees. Interaction: Static visualization for clarity. Justification: Simplifies a difficult concept. Method: HTML/CSS.
-        - Report Info: Investor financial thresholds across 5 countries. Goal: Compare regulations. Viz: Bar Chart. Interaction: Click country tabs to highlight data; hover for tooltips. Justification: A chart provides instant visual comparison of magnitudes, which is far superior to reading numbers in a table. Library: Chart.js. 
+    <!-- Chosen Palette: Professional Grays and Blues with subtle accents. -->
+    <!-- Application Structure Plan: This single-page guide is structured thematically. It starts with a general introduction to "may" and "might," moves into their core differences and grammatical uses (affirmative/interrogative), then explores their softer implications (politeness, elegance, professionalism). The main interactive part is the "Real-World Applications" section, using a tabbed interface to categorize examples from global news (technology, war, economy, education, health), company advice, and warning contexts. This structure allows users to grasp fundamental concepts before seeing them in varied, practical scenarios. -->
+    <!-- Visualization & Content Choices:
+        - Content: Explanations of "may" vs. "might," affirmative/interrogative forms. Goal: Inform. Viz/Presentation: Text blocks with highlighted keywords. Interaction: None, direct information. Method: HTML/CSS.
+        - Content: Politeness, elegance, professionalism contexts. Goal: Illustrate usage. Viz/Presentation: Text blocks with clear headings and examples. Interaction: None. Method: HTML/CSS.
+        - Content: Real-World Applications (technology, war, economy, education, health), company advice, warnings). Goal: Demonstrate practical application, show global signs. Viz/Presentation: Tabbed interface for categories with Portuguese equivalents. Interaction: Click tabs to switch content. Justification: Organizes a large number of diverse examples efficiently, allowing users to focus on areas of interest without clutter. Method: HTML/CSS/JS.
+        - Content: Importance of May/Might in various contexts. Goal: Summarize. Viz/Presentation: HTML table. Interaction: None. Justification: Provides a concise overview of nuanced usage. Method: HTML/CSS.
+        - New LLM Feature: Sentence rephrasing for politeness/elegance using 'may'/'might'. Goal: Interactive practice. Viz/Presentation: Textarea input, button, loading indicator, output div. Interaction: User input, button click to trigger LLM call, display results. Method: HTML/CSS/JS + Gemini API.
         - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
     -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f5f5f4; /* stone-100 */
+            background-color: #36454F; /* Charcoal Black */
+            color: #DAA520; /* Golden colour */
         }
         .nav-link {
             transition: color 0.3s, border-bottom-color 0.3s;
             border-bottom: 2px solid transparent;
         }
         .nav-link:hover, .nav-link.active {
-            color: #0d9488; /* teal-600 */
-            border-bottom-color: #0d9488; /* teal-600 */
+            color: #B22222; /* Red Blood */
+            border-bottom-color: #B22222; /* Red Blood */
         }
         .tab-button {
             transition: all 0.3s;
         }
         .tab-button.active {
-            background-color: #0d9488; /* teal-600 */
+            background-color: #B22222; /* Red Blood */
             color: #ffffff;
+            font-weight: 600;
         }
         .content-section {
             display: none;
@@ -44,51 +46,231 @@
         .content-section.active {
             display: block;
         }
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            top: 1.25rem;
-            left: -0.4rem;
-            width: 0.8rem;
-            height: 0.8rem;
-            background-color: #0d9488; /* teal-600 */
-            border-radius: 9999px;
-            border: 2px solid #f5f5f4; /* stone-100 */
+        .highlight-word {
+            font-weight: 600;
+            color: #FFD700; /* Brighter Golden for highlights */
         }
-        .chart-container {
+        .summary-table th, .summary-table td {
+            padding: 0.75rem;
+            border: 1px solid #4F5D73; /* Darker slate for borders */
+            text-align: left;
+        }
+        .summary-table th {
+            background-color: #4F5D73; /* Darker slate for table header */
+            font-weight: 600;
+            color: #FFD700; /* Golden text for header */
+        }
+        
+        /* Adjusted background colors for sections/elements to be opaque dark shades */
+        main section {
+            background-color: rgba(54, 69, 79, 0.95); /* Slightly transparent charcoal */
             position: relative;
+            z-index: 1;
+        }
+        .bg-gray-50 {
+            background-color: rgba(65, 80, 90, 0.95); /* Slightly lighter charcoal for contrast */
+        }
+        .bg-gray-100 {
+            background-color: rgba(75, 90, 100, 0.95); /* Another shade of charcoal */
+        }
+        .bg-white {
+             background-color: rgba(40, 50, 60, 0.9); /* Darker base for content boxes */
+        }
+        /* Override specific text colors */
+        h1.text-gray-800, h2.text-gray-800, h3.text-gray-800 {
+            color: #B22222; /* Red Blood for headlines */
+        }
+        .text-gray-600 { /* For introductory/descriptive text */
+            color: #DAA520; /* Golden for general wording */
+        }
+        .text-gray-700 { /* For general list/paragraph text */
+            color: #DAA520; /* Golden */
+        }
+        .text-gray-800 { /* For stronger general text */
+            color: #FFD700; /* Brighter Golden */
+        }
+
+        /* Specific class for golden text */
+        .golden-text {
+            color: #FFD700; /* Brighter Golden */
+        }
+
+        .portuguese-box {
+            border: 2px solid #B22222; /* Red Blood border */
+            border-radius: 0.75rem; /* Rounded corners */
+            padding: 1.5rem; /* P-6 */
+            margin-top: 2rem; /* mt-8 */
+            background-color: #4F5D73; /* Darker slate background for box */
+            color: #FFD700; /* Brighter Golden text */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .portuguese-box h3 {
+            color: #B22222; /* Red Blood for Portuguese box title */
+        }
+        .portuguese-box p, .portuguese-box ul li {
+             color: #FFD700; /* Golden text for Portuguese box content */
+        }
+
+        .exercise-answer {
+            background-color: #2F4F4F; /* Dark Slate Gray for answers */
+            border-left: 4px solid #32CD32; /* Lime Green border for answers (readable contrast) */
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.5rem;
+            color: #FFFFFF; /* White text for answers */
+        }
+        .text-blue-600 { /* For details/summary links in exercises */
+            color: #B22222; /* Red Blood for links */
+        }
+        .text-blue-500 { /* For loading indicator */
+            color: #B22222; /* Red Blood */
+        }
+        .text-red-500 { /* For error messages */
+            color: #FFD700; /* Golden for error messages (stands out) */
+        }
+
+        /* Styles for the new probability timeline section */
+        .timeline-section-container {
+            background-color: rgba(40, 50, 60, 0.9); /* Darker base for content boxes */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
+            text-align: center;
+            margin: 0 auto; /* Center the container */
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 500px;
+        .timeline-section-container h2 {
+            color: #B22222; /* Red Blood */
+            font-size: 2.25rem; /* text-4xl */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1.5rem;
+        }
+        .timeline-section-container p {
+            color: #ADD8E6; /* Light Blue */
+            font-size: 1.125rem; /* text-lg */
+            margin-bottom: 2rem;
+        }
+        .timeline-container-inner { /* Renamed to avoid conflict with main .timeline-container */
+            position: relative;
+            width: 90%;
+            height: 60px; /* Increased height to accommodate text comfortably */
+            background: linear-gradient(to right, #4F5D73, #6B7C8F); /* Gradient for the line */
+            border-radius: 5px;
+            margin: 2rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space out the main markers */
+            padding: 0 5%; /* Padding inside the line for markers */
+            box-sizing: border-box;
+        }
+        .timeline-marker { /* Renamed for specificity */
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px; /* Thicker marker */
+            height: 12px;
+            background-color: #B22222; /* Red Blood marker */
+            border-radius: 50%;
+            z-index: 10;
+        }
+        .timeline-marker-label { /* Renamed for specificity */
+            position: absolute;
+            top: -35px; /* Position above the line */
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-weight: 600;
+            color: #ADD8E6; /* Light Blue */
+            font-size: 0.9rem;
+            text-align: center;
+            padding-bottom: 5px; /* Space between label and marker */
+        }
+        .timeline-description-label { /* Renamed for specificity */
+            position: absolute;
+            bottom: -35px; /* Position below the line */
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: #ADD8E6; /* Light Blue */
+            text-align: center;
+            padding-top: 5px; /* Space between label and marker */
+        }
+
+        /* Adjusting marker positions along the line */
+        .timeline-marker.might-position { /* Specific position class */
+            left: 20%; /* Might is less probable */
+        }
+        .timeline-marker.may-position { /* Specific position class */
+            left: 80%; /* May is more probable */
+        }
+        
+        .timeline-level-label { /* Renamed for specificity */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 600;
+            color: #ADD8E6; /* Light Blue */
+            font-size: 0.8rem;
+        }
+        .timeline-level-label.low {
+            left: -30px; /* Position outside the line */
+        }
+        .timeline-level-label.high {
+            right: -30px; /* Position outside the line */
+        }
+
+        /* Responsive adjustments for timeline */
+        @media (max-width: 640px) {
+            .timeline-section-container h2 {
+                font-size: 1.75rem;
+            }
+            .timeline-section-container p {
+                font-size: 1rem;
+            }
+            .timeline-container-inner {
+                height: 80px; /* More height for smaller screens */
+            }
+            .timeline-marker-label {
+                top: -45px; /* More space for labels */
+                font-size: 0.8rem;
+            }
+            .timeline-description-label {
+                bottom: -45px; /* More space for labels */
+                font-size: 0.7rem;
+            }
+            .timeline-level-label.low {
+                left: -20px;
+            }
+            .timeline-level-label.high {
+                right: -20px;
             }
         }
+
     </style>
 </head>
-<body class="text-slate-700">
+<body class="text-gray-700">
 
-    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex-shrink-0">
-                    <h1 class="text-xl font-bold text-slate-800">Real Estate Syndication {By Daby}</h1>
+                    <h1 class="text-xl font-bold text-gray-800">Grammar Focus: May & Might - Created by Teacher Daby</h1>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="#intro" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Introduction</a>
-                        <a href="#roles" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Key Roles</a>
-                        <a href="#lifecycle" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Lifecycle</a>
-                        <a href="#financials" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Financials</a>
-                        <a href="#global" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Global View</a>
-                        <a href="#risks" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Risks & Rewards</a>
+                        <a href="#core-differences" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Core Uses</a>
+                        <a href="#tone-and-style" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Tone & Style</a>
+                        <a href="#real-world" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Real-World Use</a>
+                        <a href="#llm-feature" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Sentence Enhancer ✨</a>
+                        <a href="#brazilian-tips" class="nav-link px-3 py-2 rounded-md text-sm font-medium">For Brazilians</a>
+                        <a href="#exercises" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Exercises 🏋️‍♀️</a>
+                        <a href="#probability-scale" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Probability Scale ⚖️</a>
+                        <a href="#summary" class="nav-link px-3 py-2 rounded-md text-sm font-medium">Summary</a>
                     </div>
                 </div>
-                <div class="text-slate-500 text-sm hidden md:block">Created by Teacher Daby</div>
             </div>
         </nav>
     </header>
@@ -96,252 +278,470 @@
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         
         <section id="intro" class="text-center py-12 md:py-20">
-            <h2 class="text-3xl md:text-5xl font-bold text-slate-800 tracking-tight">Unlock Large-Scale Real Estate Deals.</h2>
-            <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-slate-600">Real estate syndication is a powerful strategy where multiple investors pool their capital to collectively invest in properties far larger than they could afford alone. This application provides an interactive guide to understand how it works, who is involved, and the key financial and regulatory considerations across the globe.</p>
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 tracking-tight">Navigating possibility: the power of 'may' and 'might' ✨</h2>
+            <p class="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-gray-600"><span class="golden-text">These two modal verbs are essential for expressing possibility, permission, and subtle degrees of certainty. While often used interchangeably, understanding their nuances enhances clarity, professionalism, and the overall impact of your communication.</span></p>
         </section>
 
-        <section id="roles" class="py-12 md:py-20">
+        <section id="core-differences" class="py-12 md:py-20 bg-gray-50 rounded-xl">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Two Key Roles</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">Every syndication is a partnership between two distinct parties: the active manager and the passive investors. Click each role to learn more about their responsibilities and rewards.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Core Uses: Possibility and Permission 💡</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Both 'may' and 'might' express possibility, but 'may' often suggests a slightly higher or more direct probability, or grants permission. 'Might' typically indicates a weaker or more remote possibility, or a conditional sense.</p>
             </div>
+
             <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white p-8 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300" onclick="toggleRoleDetails('gp-details')">
-                    <h3 class="text-2xl font-bold text-center text-teal-700">The General Partner (GP)</h3>
-                    <p class="text-center mt-2 text-slate-500">The "Sponsor" or Active Manager</p>
-                    <div id="gp-details" class="mt-4 space-y-3 hidden">
-                        <p><strong>Responsibility:</strong> Manages the entire process from deal sourcing and financing to asset management and eventual sale. They make all operational decisions.</p>
-                        <p><strong>Liability:</strong> Traditionally assumes unlimited liability for the project's debts and legal obligations, putting their personal assets at risk.</p>
-                        <p><strong>Compensation:</strong> Earns fees (acquisition, asset management) and a "promote" or "carried interest" – a significant share of the profits after investors are paid.</p>
-                    </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-blue-600 mb-4">Using <span class="highlight-word">'May'</span> ✅</h3>
+                    <p class="mb-4">Primarily for expressing <strong class="highlight-word">permission</strong> or a <strong class="highlight-word">stronger possibility</strong>. It can also be used for wishes.</p>
+                    <h4 class="font-bold text-gray-800 mb-2">Affirmative:</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>It <span class="highlight-word">may</span> rain later. (There's a good chance) ☔</li>
+                        <li>You <span class="highlight-word">may</span> leave once you finish your work. (Permission granted) 👋</li>
+                        <li>The company <span class="highlight-word">may</span> announce a new product next quarter. (A strong possibility based on information) 🚀</li>
+                    </ul>
+                    <h4 class="font-bold text-gray-800 mt-4 mb-2">Interrogative:</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><span class="highlight-word">May</span> I borrow your pen? (Requesting permission, polite) 🖊️</li>
+                        <li><span class="highlight-word">May</span> they succeed in their endeavors? (Expressing a wish) 🙏</li>
+                        <li><span class="highlight-word">May</span> the new policy cause significant changes? (Inquiring about a strong possibility) 🔄</li>
+                    </ul>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-300" onclick="toggleRoleDetails('lp-details')">
-                    <h3 class="text-2xl font-bold text-center text-teal-700">The Limited Partner (LP)</h3>
-                    <p class="text-center mt-2 text-slate-500">The Passive Investor</p>
-                    <div id="lp-details" class="mt-4 space-y-3 hidden">
-                        <p><strong>Responsibility:</strong> Primarily contributes capital to the project. They have no active role in the day-to-day management of the property.</p>
-                        <p><strong>Liability:</strong> Limited to the amount of their investment. Their personal assets are protected from the project's debts.</p>
-                        <p><strong>Compensation:</strong> Receives a share of the profits and cash flow distributions, including a "preferred return" that is paid out before the GP receives their profit share.</p>
-                    </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-blue-600 mb-4">Using <span class="highlight-word">'Might'</span> 🤔</h3>
+                    <p class="mb-4">Often used for a <strong class="highlight-word">weaker or more remote possibility</strong>, or as the past tense of 'may' in reported speech. It can also express a hypothetical situation.</p>
+                    <h4 class="font-bold text-gray-800 mb-2">Affirmative:</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>It <span class="highlight-word">might</span> rain, but the forecast is unclear. (A weaker chance) ☁️</li>
+                        <li>If you had studied, you <span class="highlight-word">might</span> have passed the exam. (Hypothetical, remote possibility) 📚➡️❌</li>
+                        <li>The economy <span class="highlight-word">might</span> see a slight slowdown in growth. (A less certain prediction) 📉</li>
+                    </ul>
+                    <h4 class="font-bold text-gray-800 mt-4 mb-2">Interrogative:</h4>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><span class="highlight-word">Might</span> I suggest an alternative approach? (More tentative or polite suggestion) 🤝</li>
+                        <li><span class="highlight-word">Might</span> he have forgotten about our meeting? (Speculating about a possibility, often with doubt) ❓</li>
+                        <li><span class="highlight-word">Might</span> global tensions escalate further? (Inquiring about a less certain or concerning possibility) 🌍🔥</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="lifecycle" class="py-12 md:py-20 bg-stone-50 rounded-xl">
+        <section id="tone-and-style" class="py-12 md:py-20">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">The Syndication Lifecycle</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">A typical syndication follows a structured path from acquisition to exit, usually spanning 5-10 years. Click on each phase to see what happens.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Politeness, Elegance, and Professionalism 🎩</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600"><span class="golden-text">Both 'may' and 'might' are enormous drivers for using, especially in Advisory, Giving a heads-up, or Warning contexts, contributing to a refined and professional tone.</span></p>
             </div>
-            <div class="relative max-w-4xl mx-auto pl-4">
-                <div class="absolute left-4 top-0 h-full w-0.5 bg-slate-300"></div>
-                <div class="space-y-8">
-                    <div class="relative pl-8 timeline-item">
-                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc1')">1. Deal Sourcing & Underwriting</h4>
-                        <p id="lc1" class="mt-2 hidden">The GP identifies promising properties, analyzing market data, financials, and value-add potential. Rigorous financial models are built to project returns.</p>
-                    </div>
-                    <div class="relative pl-8 timeline-item">
-                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc2')">2. Capital Raising</h4>
-                        <p id="lc2" class="mt-2 hidden">The GP prepares offering documents (like a Private Placement Memorandum) and presents the deal to potential LPs to secure investment commitments.</p>
-                    </div>
-                    <div class="relative pl-8 timeline-item">
-                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc3')">3. Acquisition & Closing</h4>
-                        <p id="lc3" class="mt-2 hidden">Once capital is raised, legal paperwork is finalized, funds are wired, and the GP officially purchases the property.</p>
-                    </div>
-                    <div class="relative pl-8 timeline-item">
-                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc4')">4. Asset Management & Stabilization</h4>
-                        <p id="lc4" class="mt-2 hidden">For several years, the GP executes the business plan: renovating units, improving operations, and increasing the property's value. LPs receive regular updates and cash flow distributions.</p>
-                    </div>
-                     <div class="relative pl-8 timeline-item">
-                        <h4 class="font-bold text-xl cursor-pointer" onclick="toggleLifecycle('lc5')">5. Exit & Disposition</h4>
-                        <p id="lc5" class="mt-2 hidden">The GP sells the stabilized, appreciated property. Profits and remaining capital are distributed to all partners, and the syndication is formally concluded.</p>
-                    </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">Politeness 😊</h3>
+                    <p class="text-gray-700">Using 'may' or 'might' for requests or suggestions softens the tone, making it less direct or demanding.</p>
+                    <ul class="list-disc list-inside mt-3 text-gray-700">
+                        <li>"You <span class="highlight-word">may</span> wish to review this document." (Softer than "You should review...") 📚</li>
+                        <li>"We <span class="highlight-word">might</span> politely ask for your patience." (More deferential than "We ask for patience.") ⏳</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">Elegance ✨</h3>
+                    <p class="text-gray-700">These modals add a touch of formality and sophistication, avoiding overly blunt statements.</p>
+                    <ul class="list-disc list-inside mt-3 text-gray-700">
+                        <li>"The findings <span class="highlight-word">may</span> imply a new direction for research." (More nuanced than "The findings imply...") 🔬</li>
+                        <li>"His remarks <span class="highlight-word">might</span> be considered unconventional." (A more subtle observation) 🧐</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-blue-600 mb-3">Professionalism 👔</h3>
+                    <p class="text-gray-700">In formal communication, especially advice or warnings, 'may' and 'might' convey careful consideration and avoid definitive pronouncements where uncertainty exists.</p>
+                    <ul class="list-disc list-inside mt-3 text-gray-700">
+                        <li>"Users <span class="highlight-word">may</span> experience temporary service interruptions." (Standard warning/heads-up) ⚠️</li>
+                        <li>"The market conditions <span class="highlight-word">might</span> necessitate a revised strategy." (Advisory, indicating possibility but not certainty) 📊</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="financials" class="py-12 md:py-20">
+        <section id="real-world" class="py-12 md:py-20 bg-gray-50 rounded-xl">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">How Everyone Gets Paid</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">The financial structure is designed to align the interests of the GP and LPs. This is primarily achieved through a profit distribution model called the "waterfall."</p>
-            </div>
-            <div class="grid lg:grid-cols-2 gap-8 items-start">
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 text-slate-800">The Distribution Waterfall</h3>
-                    <p class="mb-6 text-slate-600">Profits from cash flow or a sale are distributed in a specific order of priority, ensuring investors get paid first.</p>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="font-bold text-teal-700">Tier 1: Return of Capital</h4>
-                            <p>All LPs receive 100% of their initial investment back.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="font-bold text-teal-700">Tier 2: Preferred Return</h4>
-                            <p>LPs receive a pre-negotiated percentage return (e.g., 6-10%) on their investment. This is a hurdle that must be cleared before the GP earns profit share.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="font-bold text-teal-700">Tier 3: The "Promote" or Carried Interest</h4>
-                            <p>Remaining profits are split between LPs and the GP according to a predetermined ratio (e.g., 70% to LPs, 30% to GP).</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 text-slate-800">Typical Sponsor Fees</h3>
-                    <p class="mb-6 text-slate-600">The GP also charges fees to cover the costs of finding, managing, and selling the property. These should be clearly disclosed to investors.</p>
-                    <div class="space-y-4">
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="font-semibold">Acquisition Fee (1-3% of Purchase Price)</h4>
-                            <p class="text-sm text-slate-500">A one-time fee for sourcing, negotiating, and closing the deal.</p>
-                        </div>
-                         <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="font-semibold">Asset Management Fee (1-2% of Capital Raised)</h4>
-                            <p class="text-sm text-slate-500">An annual fee for the ongoing management and strategic oversight of the property.</p>
-                        </div>
-                        <div class="bg-white p-4 rounded-lg shadow">
-                            <h4 class="font-semibold">Disposition Fee (1-3% of Sale Price)</h4>
-                            <p class="text-sm text-slate-500">A fee for the work involved in marketing and selling the asset at the end of the lifecycle.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="global" class="py-12 md:py-20 bg-stone-50 rounded-xl">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">A Global View of Syndication</h2>
-                <p class="mt-4 max-w-3xl mx-auto text-lg text-slate-600">While the concept is universal, the rules change from country to country. The most important difference is who is allowed to invest. Select a country to see its specific framework and compare investor requirements.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Real-World Applications: Global Signs 🌐</h2>
+                <p class="mt-4 max-w-3xl mx-auto text-lg text-gray-600">See how 'may' and 'might' are used in current news and professional contexts across different sectors, often conveying caution, advice, or future possibilities.</p>
             </div>
 
             <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-8">
-                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="USA">USA</button>
-                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="UK">United Kingdom</button>
-                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="Canada">Canada</button>
-                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="Singapore">Singapore</button>
-                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-country="Brazil">Brazil</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="technology">Technology 💻</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="war">War/Geopolitics ⚔️</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="economy">Economy 📈</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="education">Education 🎓</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="health">Health ❤️‍🩹</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="workplace">Workplace Scenarios 🏢</button>
+                <button class="tab-button px-4 py-2 text-sm md:text-base font-semibold rounded-full bg-white shadow" data-category="company-notices">Company Notices & Signs 📰</button>
             </div>
             
             <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg max-w-6xl mx-auto">
-                <div id="content-USA" class="content-section">
-                    <h3 class="text-2xl font-bold text-slate-800">United States</h3>
-                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Securities and Exchange Commission (SEC)</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Regulation D provides exemptions from full public registration, making it the standard for private syndications. Offerings are most commonly made under Rule 506(b) or 506(c).</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Type:</strong> "Accredited Investor"</p>
+                <div id="content-technology" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Technology: Instructions, Advice, Opinions 🤖</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>Software Update (Google):</strong> "Your device <span class="highlight-word">may</span> (Pode/poderá) restart multiple times during the update process. Please do not turn off your device." (Heads-up/Warning) 🔄</li>
+                        <li><strong>Data Privacy (Apple):</strong> "We <span class="highlight-word">may</span> (Podemos) collect aggregated, anonymized data to improve our services." (Formal disclosure of possibility) 🔒</li>
+                        <li><strong>AI Development (Microsoft):</strong> "The rapid pace of AI innovation <span class="highlight-word">might</span> (Poderia/Talvez) necessitate new ethical guidelines globally." (Opinion/Advisory on future necessity) 🧠</li>
+                        <li><strong>Cybersecurity Advisory (IBM):</b> "Customers using outdated security protocols <span class="highlight-word">might</span> (Poderiam/Talvez) be vulnerable to new cyber threats." (Warning/Advice) 🚨</li>
+                    </ul>
                 </div>
-                <div id="content-UK" class="content-section">
-                    <h3 class="text-2xl font-bold text-slate-800">United Kingdom</h3>
-                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Financial Conduct Authority (FCA)</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Governed by rules for Collective Investment Schemes (CIS). Unregulated schemes (UCIS), common for syndications, can only be promoted to specific investor types.</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Types:</b> "High Net Worth Individual" & "Sophisticated Investor"</p>
+                <div id="content-war" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">War/Geopolitics: Predictions, Cautions 🕊️</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>Middle East Conflict (UN Statement):</strong> "The ongoing conflict <span class="highlight-word">may</span> (Pode/poderá) lead to a severe humanitarian crisis if aid access is not granted immediately." (Warning/Consequence)🆘</li>
+                        <li><strong>Ukraine War (NATO Official):</strong> "While a ceasefire is hoped for, the situation <span class="highlight-word">might</span> (Poderia/Talvez) escalate further before de-escalation begins." (Cautious prediction) 💥</li>
+                        <li><strong>Global Tensions (Analyst Opinion):</strong> "Minor diplomatic incidents <span class="highlight-word">might</span> (Poderiam/Talvez) have unforeseen geopolitical repercussions in the current climate." (Advisory/Warning about potential impact) 📈</li>
+                        <li><strong>Sanctions Impact (EU Commission):</strong> "The latest sanctions on certain sectors <span class="highlight-word">may</span> (Podem) have a noticeable effect on the opposing economy within months." (Forecast/Advisory) 💰</li>
+                    </ul>
                 </div>
-                <div id="content-Canada" class="content-section">
-                     <h3 class="text-2xl font-bold text-slate-800">Canada</h3>
-                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Provincial Securities Commissions (e.g., OSC, BCSC), coordinated by the Canadian Securities Administrators (CSA)</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> National Instrument 45-106 provides "prospectus exemptions" that allow for private capital raising, heavily relying on investor classification.</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Type:</strong> "Accredited Investor"</p>
+                <div id="content-economy" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Economy: Forecasts, Risks, Advice 💲</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>Inflation Report (Central Bank):</strong> "Inflation <span class="highlight-word">may</span> (Pode/poderá) gradually decline in the latter half of the year, provided global energy prices stabilize." (Forecast/Conditional possibility) 📉</li>
+                        <li><strong>Market Outlook (Goldman Sachs):</strong> "Investors <span class="highlight-word">might</span> (Poderiam/Talvez) reconsider their positions in high-growth tech stocks amid rising interest rates." (Advice/Opinion) 📊</li>
+                        <li><strong>Recession Fears (IMF):</strong> "A prolonged conflict in Eastern Europe <span class="highlight-word">might</span> (Poderia/Talvez) push several European economies into recession." (Warning/Risk assessment) ⚠️</li>
+                        <li><strong>Consumer Spending (Retail Federation):</strong> "Consumer confidence <span class="highlight-word">may</span> (Pode/poderá) remain subdued as households grapple with higher living costs." (Observation/Prediction) 🛍️</li>
+                    </ul>
                 </div>
-                <div id="content-Singapore" class="content-section">
-                    <h3 class="text-2xl font-bold text-slate-800">Singapore</h3>
-                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</i> Monetary Authority of Singapore (MAS)</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</strong> Governed by the Securities and Futures Act (SFA). "Restricted Foreign Schemes" are a common path, targeting non-retail investors without requiring a full public prospectus.</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Type:</strong> "Accredited Investor"</p>
+                <div id="content-education" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Education: Policies, Guidelines, Advice 📚</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>University Policy (Harvard):</strong> "Students <span class="highlight-word">may</span> (Podem) submit late assignments with a valid reason, subject to tutor approval." (Permission/Policy) 📝</li>
+                        <li><strong>Curriculum Development (UNESCO):</strong> "Future educational curricula <span class="highlight-word">might</span> (Poderiam/Talvez) increasingly integrate digital literacy and critical thinking skills." (Advisory/Future trend) 💻</li>
+                        <li><strong>Funding Outlook (National Education Dept.):</strong> "Budgetary constraints <span class="highlight-word">may</span> (Podem/poderão) impact the availability of certain extracurricular programs next year." (Heads-up/Warning about potential cuts) ✂️</li>
+                        <li><strong>Online Learning (Coursera):</strong> "While online courses offer flexibility, students <span class="highlight-word">might</span> (Poderiam/Talvez) need stronger self-discipline to succeed." (Advice/Observation) 🧑‍💻</li>
+                    </ul>
                 </div>
-                 <div id="content-Brazil" class="content-section">
-                    <h3 class="text-2xl font-bold text-slate-800">Brazil</h3>
-                    <p class="mt-2 text-slate-600"><strong class="font-semibold">Regulatory Body:</strong> Comissão de Valores Mobiliários (CVM)</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Framework:</i> Real Estate Investment Funds (FIIs) are the primary vehicle. They are closed-ended condominiums regulated by the CVM and are broadly accessible.</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Key Investor Types:</strong> "Qualified Investor" & "Professional Investor" (Retail investors also have access).</p>
-                    <p class="mt-1 text-slate-600"><strong class="font-semibold">Real Case Example:</strong> **BC Office Fund (BRCR11)** is one of Brazil's largest publicly-listed Real Estate Investment Funds (FIIs). It specializes in high-quality corporate office towers located in major Brazilian cities like São Paulo and Rio de Janeiro. The fund actively manages its portfolio, including optimizing leases and occupancy rates, which exemplifies how real estate syndication principles are applied within the FII structure to generate returns for its many quotaholders.</p>
+                <div id="content-health" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Health: Medical Advice, Warnings, Symptoms 🩺</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>Medication Side Effects (Pfizer):</strong> "Common side effects <span class="highlight-word">may</span> (Podem) include dizziness or nausea." (Formal warning/Information) 🤢</li>
+                        <li><strong>Pandemic Advisory (WHO):</strong> "New variants <span class="highlight-word">might</span> (Poderiam/Talvez) emerge, necessitating continued vigilance and public health measures." (Warning/Advisory on future risk) 🦠</li>
+                        <li><strong>Dietary Advice (Mayo Clinic):</strong> "Limiting processed foods <span class="highlight-word">may</span> (Pode) significantly reduce your risk of cardiovascular disease." (Advice/Recommendation) 🍎</li>
+                        <li><strong>Allergy Warning (Food Company):</strong> "Product <span class="highlight-word">may</span> (Pode) contain traces of nuts." (Formal warning/Heads-up) 🥜</li>
+                    </ul>
                 </div>
-
-                <div class="mt-8">
-                     <h4 class="text-xl font-bold text-center text-slate-700 mb-4">Comparing Investor Financial Thresholds (USD Equivalent)</h4>
-                    <div class="chart-container">
-                        <canvas id="investorChart"></canvas>
-                    </div>
+                <div id="content-workplace" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Workplace Scenarios: Instructions, Advice, Warnings 💼</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>Human Resources (Instructions):</strong> "Employees <span class="highlight-word">may</span> (Podem) access their annual leave balance through the HR portal. Please allow 24 hours for updates." (Formal Instruction/Permission) 🗓️</li>
+                        <li><strong>Sales Management (Advisory):</strong> "Given current market trends, our sales team <span class="highlight-word">might</span> (Poderia/Talvez) need to focus more on client retention than new acquisitions next quarter." (Advisory/Strategic Suggestion) 📈</li>
+                        <li><strong>Legal Department (Warning):</strong> "Unauthorized sharing of client data <span class="highlight-word">may</span> (Pode/poderá) result in severe penalties, including termination of employment and legal action." (Formal Warning/Consequence) ⚖️</li>
+                    </ul>
+                </div>
+                <div id="content-company-notices" class="content-section">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Company Notices & Signs: Policies, Guidance, Caution 🏢</h3>
+                    <ul class="list-disc list-inside space-y-3 text-gray-700">
+                        <li><strong>Office Building Sign:</strong> "Visitors <span class="highlight-word">may</span> (Podem) be subject to security checks upon entry." (Formal rule/instruction) 🛂</li>
+                        <li><strong>Software EULA (End-User License Agreement):</strong> "The software <span class="highlight-word">may</span> (Pode) collect anonymous usage data to improve functionality." (Formal disclosure/permission by software) 📊</li>
+                        <li><strong>Product Warning Label:</strong> "This product <span class="highlight-word">might</span> (Poderia/Talvez) cause drowsiness. Do not operate heavy machinery after use." (Caution/Weaker possibility of side effect) 😴</li>
+                        <li><strong>Website Cookie Consent:</strong> "We use cookies to personalize content and ads. You <span class="highlight-word">may</span> (Pode) change your cookie settings at any time." (Permission/Option) 🍪</li>
+                        <li><strong>Internal Memo (Project Update):</strong> "Due to unforeseen supply chain issues, the project timeline <span class="highlight-word">might</span> (Poderia/Talvez) be slightly adjusted." (Cautious update/possibility of change) 🗓️</li>
+                        <li><strong>Public Notice (Road Construction):</strong> "Road closures <span class="highlight-word">may</span> (Podem) occur between 10 PM and 5 AM. Please seek alternative routes." (Formal warning/information) 🚧</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
-        <section id="risks" class="py-12 md:py-20">
+        <section id="llm-feature" class="py-12 md:py-20">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-slate-800">Is Syndication Right For You?</h2>
-                <p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600">Understand the key benefits and inherent risks before investing.</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Sentence Enhancer ✨</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600"><span class="golden-text">Want to make your sentences sound more polite, elegant, or professional? Type a sentence below and let our AI suggest improvements using 'may' and 'might'.</span></p>
             </div>
-            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-bold text-green-600 mb-4">Rewards & Benefits</h3>
-                    <ul class="space-y-3 list-disc list-inside">
-                        <li><strong>Access to Larger Deals:</strong> Invest in institutional-quality assets you couldn't buy alone.</li>
-                        <li><strong>Passive Investment:</strong> Earn returns without the headaches of property management.</li>
-                        <li><strong>Professional Management:</i> Leverage the expertise, network, and track record of an experienced sponsor.</li>
-                        <li><strong>Diversification:</strong> Spread your capital across different properties, markets, or asset types.</li>
-                         <li><strong>Potential Tax Advantages:</i> Benefit from deductions like depreciation.</li>
-                    </ul>
+            <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+                <textarea id="sentence-input-llm" class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:border-transparent" rows="4" placeholder="Type your sentence here (e.g., 'I want to ask a question')."></textarea>
+                <button id="enhance-button" class="w-full mt-4 bg-blue-600 text-white p-3 rounded-md font-semibold hover:bg-blue-700 transition-colors">Enhance Sentence ✨</button>
+                <div id="loading-indicator" class="hidden mt-4 text-center text-blue-500 font-medium">Loading...</div>
+                <div id="enhanced-output" class="mt-6 p-4 border border-dashed border-gray-200 rounded-md min-h-[80px] bg-gray-50">
+                    <p class="text-gray-400">Enhanced suggestions will appear here.</p>
                 </div>
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-bold text-red-600 mb-4">Risks & Considerations</h3>
-                     <ul class="space-y-3 list-disc list-inside">
-                        <li><strong>Illiquidity:</strong> Your capital is typically tied up for 5-10 years with limited options to exit early.</li>
-                        <li><strong>Lack of Control:</strong> You are trusting the GP to make all decisions.</li>
-                        <li><strong>Sponsor Risk:</b> The success of the project is highly dependent on the GP's competence and integrity.</li>
-                        <li><strong>Market Risk:</strong> Economic downturns can negatively impact property values and rental income.</li>
-                        <li><strong>Complexity:</b> The legal and financial structures can be complex and require careful due diligence.</li>
-                    </ul>
+            </div>
+        </section>
+
+        <section id="brazilian-tips" class="py-12 md:py-20 bg-gray-100 rounded-xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">A Special Note for Portuguese Speakers: Beyond 'Maybe' and 'Can' 🇧🇷</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Brazilians often tend to overuse "maybe" and "can" in English due to direct translation from Portuguese ("talvez" and "poder"). While grammatically correct in some contexts, this can sometimes lead to less formal, polite, or precise communication. Let's explore how 'may' and 'might' can elevate your English.</p>
+                <p class="text-sm italic text-gray-500 mt-2">Sumário: Brasileiros frequentemente usam "maybe" e "can" em inglês de forma excessiva. Esta seção ensina como usar 'may' e 'might' para soar mais formal e preciso.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto portuguese-box">
+                <h3 class="text-2xl font-bold text-blue-800 mb-4">ATENÇÃO, MEUS ALUNOS BRASILEIROS! 🎓</h3>
+                <p class="mb-4">Muitos de vocês, ao falarem inglês, tendem a traduzir literalmente do português. Palavras como "talvez" e "poder" (de possibilidade ou permissão) são traduzidas diretamente para "maybe" e "can". Mas, **cuidado!** 'May' e 'might' não são apenas sinônimos. Eles são ferramentas poderosas para modular a sua comunicação, adicionando camadas de **polidez, elegância** e **profissionalismo**.</p>
+                <p class="mb-4">**Não se trata de traduzir, mas de entender a situação.**</p>
+                <ul class="list-disc list-inside space-y-2 mb-4">
+                    <li>Se a sua intenção é ser **educado** ao pedir algo ou sugerir (ex: "Posso ajudar?"), use 'may'.</li>
+                    <li>Se você quer soar **elegante** ou sofisticado, expressando uma possibilidade de forma mais suave, 'may' ou 'might' são suas melhores escolhas.</li>
+                    <li>Em contextos **profissionais**, como ao dar um aviso ou um conselho (ex: "Isso pode causar um problema"), 'may' ou 'might' são essenciais para indicar incerteza e responsabilidade, não uma afirmação absoluta.</li>
+                </ul>
+                <p class="font-semibold text-blue-900">Pensem nesses verbos como a diferença entre uma conversa casual e um discurso formal. É a chave para um inglês mais fluente e impactante! Continuem praticando! 💪</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-8">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Substituting "Maybe" (Talvez) ➡️</h3>
+                <p class="mb-4">While "maybe" is perfectly acceptable for general possibility, 'may' and 'might' offer more nuance, especially in formal or professional settings.</p>
+                <p class="text-sm italic text-gray-500 mt-2 mb-4">Sumário: "Maybe" é bom para informalidade, mas 'may' e 'might' dão mais formalidade e precisão, especialmente em contextos profissionais.</p>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li><strong>Less Formal:</strong> "Maybe I will go to the party tonight." 🎉</li>
+                    <li><strong>More Formal/Elegant:</strong> "I <span class="highlight-word">may</span> go to the party tonight." (Slightly higher chance) ✨</li>
+                    <li><strong>More Tentative/Professional:</strong> "The project <span class="highlight-word">might</span> face delays." (More cautious than "Maybe the project will face delays.") 🚧</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-blue-600 mt-8 mb-4">Differentiating "Can" (Poder) and "May" (Permissão/Possibilidade) 🤝</h3>
+                <p class="mb-4">This is a very common point of confusion. Remember that 'can' primarily indicates ability, while 'may' primarily indicates permission or possibility.</p>
+                <p class="text-sm italic text-gray-500 mt-2 mb-4">Sumário: "Can" é para habilidade, enquanto 'may' é para permissão ou possibilidade. Esta diferença é crucial para evitar traduções literais.</p>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li><strong>Ability (Correct):</strong> "I <span class="highlight-word">can</span> speak three languages." (Eu posso/consigo falar...) 🗣️</li>
+                    <li><strong>Asking for Permission (Common Brazilian Overuse):</strong> "Can I go to the bathroom?" (Direct translation of "Posso ir ao banheiro?") 🚽</li>
+                    <li><strong>Asking for Permission (More Polite/Correct English):</strong> "<span class="highlight-word">May</span> I go to the bathroom?" (Asking for permission) 🙏</li>
+                    <li><strong>Expressing Possibility (Incorrect Translation):</strong> "This situation can cause problems." (Often from "Essa situação pode causar problemas.") ❌</li>
+                    <li><strong>Expressing Possibility (More Accurate English):</strong> "This situation <span class="highlight-word">may</span> cause problems." (Referring to a possibility, not an and ability) ⚠️</li>
+                </ul>
+
+                <h3 class="text-2xl font-semibold text-blue-600 mt-8 mb-4">Tips for Brazilians: Elevate Your English! 🚀</h3>
+                <ul class="list-disc list-inside space-y-3 text-gray-700">
+                    <li><strong>Think Beyond Direct Translation:</strong> Don't always translate "talvez" directly to "maybe" or "poder" to "can." Consider the nuance you want to convey. 🤔</li>
+                    <li><strong>Use 'May' for Permission:</strong> When asking for or granting permission, aim for 'may' for politeness and formality. ✅</li>
+                    <li><strong>Use 'May' for Stronger Possibilities:</strong> In formal contexts or when there's a good chance of something happening, 'may' is often the better choice over "maybe." ✨</li>
+                    <li><strong>Use 'Might' for Weaker or Conditional Possibilities:</strong> When something is less certain, hypothetical, or dependent on a condition, 'might' adds precision. ☁️</li>
+                    <li><strong>Practice Professional Contexts:</strong> Pay attention to how these words are used in news articles, official announcements, and business emails in English. You'll notice 'may' and 'might' frequently in advisory or cautionary statements. 📰📧</li>
+                </ul>
+                <p class="text-sm italic text-gray-500 mt-2">Sumário: Evite traduções literais. Use 'may' para permissão e possibilidades mais fortes, e 'might' para possibilidades mais fracas. Observe o uso em contextos profissionais para aprimorar sua comunicação.</p>
+            </div>
+        </section>
+
+        <section id="summary" class="py-12 md:py-20">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Importance of 'May' and 'Might' in Communication 📊</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600"><span class="golden-text">This table summarizes the nuanced roles of 'may' and 'might' in conveying various shades of meaning, emphasizing their contribution to polite, elegant, and professional communication, as well as their use in expressing different levels of probability and forming questions.</span></p>
+            </div>
+            <div class="overflow-x-auto max-w-4xl mx-auto bg-white rounded-lg shadow-lg">
+                <table class="w-full summary-table">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>How 'May' is Used</th>
+                            <th>How 'Might' is Used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Politeness</strong></td>
+                            <td>Used for more direct, yet still polite, requests or permissions.</td>
+                            <td>Used for more tentative, deferential, or indirect requests and suggestions.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Elegance</strong></td>
+                            <td>Adds a touch of formality and slightly stronger possibility to statements.</td>
+                            <td>Imparts a subtle, more nuanced, or hypothetical tone, suggesting remote possibility.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Professionalism</strong></td>
+                            <td>Common in formal instructions, policies, and forecasts with reasonable certainty.</td>
+                            <td>Used for cautious advice, warnings, or assessments where certainty is lower.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Probability (Affirmation)</strong></td>
+                            <td>Indicates a good or reasonable chance; a stronger possibility.</td>
+                            <td>Indicates a weaker, more remote, or hypothetical possibility.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Question Form (Interrogative)</strong></td>
+                            <td>Used for polite requests for permission, or inquiring about a likely possibility.</td>
+                            <td>Used for more tentative suggestions or speculating about a less certain possibility.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="probability-scale" class="py-12 md:py-20 bg-gray-50 rounded-xl">
+            <div class="timeline-section-container">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Escala de Probabilidade: 'Might' vs. 'May' ⚖️</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Esta linha do tempo ilustra a diferença no nível de probabilidade transmitido por 'might' e 'may'.</p>
+
+                <div class="timeline-container-inner">
+                    <span class="timeline-level-label low">Menos Certo</span>
+                    <span class="timeline-level-label high">Mais Certo</span>
+
+                    <div class="timeline-marker might-position">
+                        <span class="timeline-marker-label">Might</span>
+                        <span class="timeline-description-label">Possibilidade mais fraca, hipotético</span>
+                    </div>
+                    
+                    <div class="timeline-marker may-position">
+                        <span class="timeline-marker-label">May</span>
+                        <span class="timeline-description-label">Possibilidade mais forte, permissão</span>
+                    </div>
                 </div>
+                <p class="mt-8 text-sm italic">
+                    Pense nisso como um espectro: 'Might' está mais próximo de "talvez não" ou "é uma pequena chance", enquanto 'May' está mais próximo de "é provável" ou "é permitido".
+                </p>
+            </div>
+        </section>
+
+        <section id="exercises" class="py-12 md:py-20 bg-gray-50 rounded-xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Exercises: Put your knowledge to the test! 🧠✍️</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Chegou a hora de praticar! Complete os exercícios abaixo para fixar o uso de 'may' e 'might' em diferentes contextos. Lembre-se das dicas que estudamos!</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mb-8">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Exercício 1: Tradução (Portuguese to English) 🇧🇷➡️🇬🇧</h3>
+                <p class="mb-4 text-gray-700">Traduza as seguintes frases para o inglês, prestando atenção em qual modal ('may' ou 'might') é mais apropriado. Pense no nível de certeza, polidez ou formalidade.</p>
+                
+                <ol class="list-decimal list-inside space-y-4 text-gray-700">
+                    <li>
+                        <p>1. Talvez chova amanhã, mas a previsão está incerta. (pense em uma possibilidade mais fraca)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>It <span class="font-semibold">might</span> rain tomorrow, but the forecast is uncertain.</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>2. Posso usar seu computador por um momento? (pedindo permissão, de forma educada)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p><span class="font-semibold">May</span> I use your computer for a moment?</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>3. A empresa pode anunciar novos cortes de custos. (é uma possibilidade real, baseada em informações)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>The company <span class="font-semibold">may</span> announce new cost cuts.</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>4. Ele poderia ter esquecido o encontro, já que estava muito ocupado. (uma suposição sobre o passado, com certa incerteza)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>He <span class="font-semibold">might</span> have forgotten the meeting, as he was very busy.</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>5. Gostaria de sugerir uma nova estratégia. (sugestão mais gentil/tentativa)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>I <span class="font-semibold">might</span> suggest a new strategy. (or "May I suggest...")</p>
+                            </div>
+                        </details>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-blue-600 mb-4">Exercício 2: Preencha as Lacunas (Fill in the Blanks) ✍️</h3>
+                <p class="mb-4 text-gray-700">Preencha as lacunas com 'may' ou 'might', escolhendo a opção que melhor se encaixa no contexto da frase. Justifique mentalmente sua escolha!</p>
+                
+                <ol class="list-decimal list-inside space-y-4 text-gray-700">
+                    <li>
+                        <p>1. Visitors _____ experience delays due to ongoing construction. (formal warning/heads-up)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>Visitors <span class="font-semibold">may</span> experience delays due to ongoing construction.</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>2. If she had more time, she _____ join us for dinner. (hypothetical/remote possibility)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>If she had more time, she <span class="font-semibold">might</span> join us for dinner.</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>3. _____ I offer you some assistance with that heavy box? (polite offer)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p><span class="font-semibold">May</span> I offer you some assistance with that heavy box?</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>4. The company's profits _____ increase next quarter if the new marketing campaign is successful. (stronger possibility based on a condition)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>The company's profits <span class="font-semibold">may</span> increase next quarter if the new marketing campaign is successful.</p>
+                            </div>
+                        </details>
+                    </li>
+                    <li>
+                        <p>5. He looks unwell; he _____ have caught the flu. (speculation with a degree of uncertainty)</p>
+                        <details class="mt-2">
+                            <summary class="cursor-pointer text-blue-600 hover:underline">Mostrar Resposta</summary>
+                            <div class="exercise-answer">
+                                <p>He looks unwell; he <span class="font-semibold">might</span> have caught the flu.</p>
+                            </div>
+                        </details>
+                    </li>
+                </ol>
             </div>
         </section>
         
     </main>
 
-    <footer class="bg-slate-800 text-white">
+    <footer class="bg-gray-800 text-white">
         <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2024 Grammar Guide. All rights reserved.</p>
             <p class="mt-2">Created by Teacher Daby</p>
         </div>
     </footer>
 
 
     <script>
-        const roleDetails = ['gp-details', 'lp-details'];
-        function toggleRoleDetails(id) {
-            const el = document.getElementById(id);
-            const isHidden = el.classList.contains('hidden');
-            
-            // Optional: Hide all others first for an accordion effect
-            // roleDetails.forEach(detailId => {
-            //     if (detailId !== id) document.getElementById(detailId).classList.add('hidden');
-            // });
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-            if(isHidden) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
-        }
+        // Highlight active nav link on scroll
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('main > section');
 
-        const lifecycleDetails = ['lc1', 'lc2', 'lc3', 'lc4', 'lc5'];
-        function toggleLifecycle(id) {
-            const el = document.getElementById(id);
-            const isHidden = el.classList.contains('hidden');
-            if(isHidden) {
-                el.classList.remove('hidden');
-            } else {
-                el.classList.add('hidden');
-            }
-        }
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 100) { // Offset for header height
+                    current = section.getAttribute('id');
+                }
+            });
 
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Tab functionality for Real-World Applications
         const tabButtons = document.querySelectorAll('.tab-button');
         const contentSections = document.querySelectorAll('.content-section');
-        let investorChart;
 
-        const chartData = {
-            USA: { income: 200000, netWorth: 1000000 },
-            UK: { income: 126000, netWorth: 315000 }, // £100k, £250k @ 1.26 USD/GBP
-            Canada: { income: 146000, netWorth: 730000 }, // C$200k, C$1M @ 0.73 USD/CAD (using financial assets for worth)
-            Singapore: { income: 222000, netWorth: 740000 }, // S$300k, S$1M @ 0.74 USD/SGD (using financial assets for worth)
-            Brazil: { income: 0, netWorth: 185000 } // BRL 1M @ 0.185 USD/BRL (Qualified investor, no income test)
-        };
-
-        function updateContent(country) {
+        function updateContent(category) {
             tabButtons.forEach(button => {
-                if (button.dataset.country === country) {
+                if (button.dataset.category === category) {
                     button.classList.add('active');
                 } else {
                     button.classList.remove('active');
@@ -349,124 +749,72 @@
             });
 
             contentSections.forEach(section => {
-                if (section.id === `content-${country}`) {
+                if (section.id === `content-${category}`) {
                     section.classList.add('active');
                 } else {
                     section.classList.remove('active');
                 }
             });
-            updateChart(country);
         }
         
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                updateContent(button.dataset.country);
+                updateContent(button.dataset.category);
             });
         });
 
-        function createChart() {
-            const ctx = document.getElementById('investorChart').getContext('2d');
-            investorChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(chartData),
-                    datasets: [{
-                        label: 'Annual Income (USD)',
-                        data: Object.values(chartData).map(d => d.income),
-                        backgroundColor: [],
-                        borderColor: [],
-                        borderWidth: 2
-                    }, {
-                        label: 'Net Worth (USD)',
-                        data: Object.values(chartData).map(d => d.netWorth),
-                        backgroundColor: [],
-                        borderColor: [],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value, index, values) {
-                                    return '$' + (value / 1000) + 'k';
-                                }
-                            }
-                        },
-                         y: {
-                            ticks: {
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.dataset.label || '';
-                                    if (label) {
-                                        label += ': ';
-                                    }
-                                    if (context.parsed.x !== null) {
-                                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(context.parsed.x);
-                                    }
-                                    if(context.dataset.label.includes('Income') && context.raw === 0) {
-                                        return ' Income test not applicable';
-                                    }
-                                    return label;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function updateChart(selectedCountry) {
-            const incomeColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgba(13, 148, 136, 0.8)' : 'rgba(13, 148, 136, 0.2)');
-            const netWorthColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgba(8, 126, 164, 0.8)' : 'rgba(8, 126, 164, 0.2)');
-            const incomeBorderColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgb(13, 148, 136)' : 'rgba(13, 148, 136, 0.4)');
-            const netWorthBorderColors = Object.keys(chartData).map(country => country === selectedCountry ? 'rgb(8, 126, 164)' : 'rgba(8, 126, 164, 0.4)');
-
-            investorChart.data.datasets[0].backgroundColor = incomeColors;
-            investorChart.data.datasets[1].backgroundColor = netWorthColors;
-            investorChart.data.datasets[0].borderColor = incomeBorderColors;
-            investorChart.data.datasets[1].borderColor = netWorthBorderColors;
-            investorChart.update();
-        }
-
+        // Initialize with the first tab active (e.g., 'technology' or 'company-notices' if you prefer)
         document.addEventListener('DOMContentLoaded', () => {
-            createChart();
-            updateContent('USA');
+            updateContent('technology'); // Or 'company-notices' to start with the new section
+        });
 
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('main > section');
+        // LLM Feature Script
+        document.getElementById('enhance-button').addEventListener('click', async () => {
+            const inputSentence = document.getElementById('sentence-input-llm').value.trim();
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const enhancedOutput = document.getElementById('enhanced-output');
 
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 80) {
-                        current = section.getAttribute('id');
-                    }
+            if (!inputSentence) {
+                enhancedOutput.innerHTML = '<p class="text-red-500">Please enter a sentence to enhance.</p>';
+                return;
+            }
+
+            loadingIndicator.classList.remove('hidden');
+            enhancedOutput.innerHTML = ''; // Clear previous output
+
+            try {
+                const prompt = `Rephrase the following sentence to sound more polite, elegant, or professional, specifically using 'may' or 'might' where appropriate. Provide 2-3 alternative phrasings. Original sentence: "${inputSentence}"`;
+                
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // Canvas will provide this key at runtime
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').includes(current)) {
-                        link.classList.add('active');
-                    }
-                });
-            });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    enhancedOutput.innerHTML = `<p class="font-semibold mb-2">Original: "${inputSentence}"</p><p class="whitespace-pre-wrap">${text}</p>`;
+                } else {
+                    enhancedOutput.innerHTML = '<p class="text-red-500">Could not generate suggestions. Please try again.</p>';
+                }
+
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                enhancedOutput.innerHTML = `<p class="text-red-500">An error occurred: ${error.message}. Please try again.</p>`;
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
         });
     </script>
 </body>
